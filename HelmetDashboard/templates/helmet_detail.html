@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helmet Details</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Helmet Status</title>
+    <script src="assets/xlsx.full.min.js"></script> <!-- Include xlsx.js -->
+</head>
+<body>
+    <div style="width: 80%; margin: auto;">
+        <h2>Live Helmet Data</h2>
+
+        <!-- Helmet Status Display -->
+        <h3><p id="helmet-status">Helmet Worn: <span style="color: green;">On</span></p></h3>
+
+        <!-- Graph -->
+        <canvas id="helmetChart"></canvas>
+    </div>
+
+    <script>
+        // Initialize the chart with empty data
+        const ctx = document.getElementById('helmetChart').getContext('2d');
+        const helmetChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Helmet Data',
+                    data: [],
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Time'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'CO Level'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Function to fetch data from the server
+        async function fetchHelmetData() {
+            try {
+                const response = await fetch('/get_helmet_data');
+                const data = await response.json();
+
+                console.log('Fetched Data:', data);  // Log the data
+
+                // Update the helmet status based on fetched data
+                if (data.helmet_worn !== undefined) {
+                    updateHelmetStatus(data.helmet_worn); // Call the function to update status
+                }
+
+                // Update the chart with the new data
+                if (data.labels && data.values) {
+                    helmetChart.data.labels = data.labels; // Latest labels
+                    helmetChart.data.datasets[0].data = data.values; // Latest values
+                    helmetChart.update();
+                }
+
+            } catch (error) {
+                console.error('Error fetching helmet data:', error);
+            }
+        }
+
+        // Poll the server every 5 seconds for updates
+        setInterval(fetchHelmetData, 5000);
+        fetchHelmetData(); // Initial fetch
+    </script>
+</body>
+</html>

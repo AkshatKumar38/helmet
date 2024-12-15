@@ -1,0 +1,41 @@
+/* Custom Styles for Helmet Dashboard */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+header {
+    background-color: #0078d7;
+}
+
+.status-card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.status-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+footer {
+    background-color: #f8f9fa;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add responsive margin on smaller screens */
+@media (max-width: 768px) {
+    .status-card {
+        margin-bottom: 20px;
+    }
+}
