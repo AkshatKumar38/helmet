@@ -42,7 +42,7 @@ To run the dashboard application, execute:
 ```
 bash
 Copy code
-python dashboard.py
+python app.py
 ```
 
 ## Usage Instructions
